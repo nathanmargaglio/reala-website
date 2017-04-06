@@ -68,7 +68,7 @@ class Event(models.Model):
 
     occurred = models.DateTimeField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    parcel = models.ForeignKey(Parcel, on_delete=models.CASCADE, null=True)
+    owner = models.ForeignKey(Owner, related_name='events', on_delete=models.CASCADE, null=True)
     type = models.CharField(max_length=32, null=True)
     details = models.CharField(max_length=32, null=True)
     notes = models.TextField(default=None, null=True)
