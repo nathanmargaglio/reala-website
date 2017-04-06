@@ -2,8 +2,13 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from reala_api.models import Parcel, Owner, Event
 from reala_api.serializers import UserSerializer, GroupSerializer, ParcelSerializer, OwnerSerializer, EventSerializer
+from django.shortcuts import render
+from django.template import RequestContext
 
 
+def index(request):
+    context = {}
+    return render(request, 'index.html', context=context)
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -11,7 +16,6 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
