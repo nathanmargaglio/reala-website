@@ -1,6 +1,10 @@
-import requests
-from reala import config, settings
+import requests, os
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+
+try:
+    from reala.config import *
+except:
+    GEOLOC_KEY = os.environ['GEOLOC_KEY']
 
 try:
     from reala_api.models import Parcel, Owner, Event
@@ -26,7 +30,7 @@ def get_parcel_geocode(data):
     base_url = 'https://maps.googleapis.com/maps/api/geocode/json?address='
     r = requests.get(
         "{}{}+{}+{}+{}+{}&key=".format(base_url, data['street_number'], data['route'], data['city'], data['state'],
-                                       data['postal_code'], config.GEOLOC_KEY))
+                                       data['postal_code'], GEOLOC_KEY))
     api_data = r.json()['results'][0]
 
     # Construct the parcel_data dictionary
