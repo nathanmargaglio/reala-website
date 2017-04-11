@@ -29,6 +29,7 @@ def get_parcel_geocode(formatted_address):
     base_url = 'https://maps.googleapis.com/maps/api/geocode/json?address='
     r = requests.get(
         "{}{}&key=".format(base_url, formatted_address, GEOLOC_KEY))
+
     api_data = r.json()['results'][0]
 
     # Construct the parcel_data dictionary
@@ -46,25 +47,20 @@ def get_parcel_geocode(formatted_address):
             parcel_data['postal_code'] = d['short_name']
 
     parcel_data['formatted_address'] = api_data['formatted_address']
+    parcel_data['lat'] = api_data['geometry']['location']['lat']
+    parcel_data['lng'] = api_data['geometry']['location']['lng']
 
-    queryset = Parcel.objects.all()
+    parcel = None
     try:
-        queryset = queryset.filter(street_number=parcel_data['street_number'])
-        queryset = queryset.filter(route=parcel_data['route'])
-        queryset = queryset.filter(city=parcel_data['city'])
-        queryset = queryset.filter(state=parcel_data['state'])
-        queryset = queryset.filter(postal_code=parcel_data['postal_code'])
+        print("Querying for parcel.")
+        parcel = Parcel.objects.get(formatted_address=parcel_data['formatted_address'])
+        print("Found Parcel.  Returning.")
     except KeyError:
         print("No address found.")
         return None
-
-    parcel = Parcel()
-    try:
-        print("Querying for parcel.")
-        parcel = queryset.get()
-        print("Found Parcel.  Returning.")
     except MultipleObjectsReturned:
-        print("There's more than one house with these specs.  That's a problem.")
+        print("There's more than one house with this address.  That's a problem.")
+        return None
     except ObjectDoesNotExist:
         print("Couldn't find parcel.  Making it now.")
         parcel = Parcel()
@@ -74,6 +70,8 @@ def get_parcel_geocode(formatted_address):
         parcel.city = parcel_data['city']
         parcel.state = parcel_data['state']
         parcel.postal_code = parcel_data['postal_code']
+        parcel.lat = parcel_data['lat']
+        parcel.lng = parcel_data['lng']
         parcel.save()
 
     return parcel

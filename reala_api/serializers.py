@@ -17,26 +17,42 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class ParcelSerializer(serializers.ModelSerializer):
+    street_number = serializers.CharField(read_only=True)
+    route = serializers.CharField(read_only=True)
+    city = serializers.CharField(read_only=True)
+    state = serializers.CharField(read_only=True)
+    postal_code = serializers.CharField(read_only=True)
+    lat = serializers.CharField(read_only=True)
+    lng = serializers.CharField(read_only=True)
+
     class Meta:
         model = Parcel
         fields = (
-            'id', 'contact', 'street_number', 'route', 'city', 'state', 'postal_code', 'lat', 'lon', 'swis',
-            'assessment', 'frontage', 'depth', 'acres', 'year_built', 'beds', 'baths', 'fireplace', 'description',
-            'school', 'notes')
+            'id', 'contact', 'formatted_address', 'street_number', 'route', 'city', 'state', 'postal_code', 'lat',
+            'lng', 'swis', 'assessment', 'frontage', 'depth', 'acres', 'year_built', 'beds', 'baths', 'fireplace',
+            'description', 'school', 'notes')
 
     def create(self, validated_data):
-        home_data = {}
-        home_data['street_number'] = validated_data.pop('street_number')
-        home_data['route'] = validated_data.pop('route')
-        home_data['city'] = validated_data.pop('city')
-        home_data['state'] = validated_data.pop('state')
-        home_data['postal_code'] = validated_data.pop('postal_code')
-
-        parcel = search_parcel(home_data)
-        parcel.objects.update(**validated_data)
+        parcel = search_parcel(validated_data.pop('formatted_address'))
+        for attr, val in validated_data.items():
+            setattr(parcel, attr, val)
         parcel.save()
 
         return parcel
+
+    def update(self, instance, validated_data):
+        # We don't let Parcel objects update address data
+        # Since every address given exists, we want a new
+        # Parcel instance to be created instead.
+        parcel = search_parcel(validated_data.pop('formatted_address'))
+        if parcel is not None and parcel.formatted_address != instance.formatted_address:
+            return parcel
+
+        for attr, val in validated_data.items():
+            setattr(instance, attr, val)
+        instance.save()
+
+        return instance
 
 
 class ParcelCompactSerializer(serializers.ModelSerializer):

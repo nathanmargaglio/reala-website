@@ -13,14 +13,14 @@ class Parcel(models.Model):
     contact = models.ForeignKey('Owner', null=True, on_delete=models.CASCADE)
 
     # Location Info
-    formatted_address = models.CharField(max_length=128, default='')
-    street_number = models.CharField(max_length=16)
-    route = models.CharField(max_length=32)
-    city = models.CharField(max_length=32)
-    state = models.CharField(max_length=16)
-    postal_code = models.CharField(max_length=32)
+    formatted_address = models.CharField(max_length=128, default=None, null=True)
+    street_number = models.CharField(max_length=16, default=None, null=True)
+    route = models.CharField(max_length=32, default=None, null=True)
+    city = models.CharField(max_length=32, default=None, null=True)
+    state = models.CharField(max_length=16, default=None, null=True)
+    postal_code = models.CharField(max_length=32, default=None, null=True)
     lat = models.FloatField(default=None, null=True)
-    lon = models.FloatField(default=None, null=True)
+    lng = models.FloatField(default=None, null=True)
 
     # Features
     swis = models.CharField(max_length=32, default=None, null=True)
