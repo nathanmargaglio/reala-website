@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+
 import dj_database_url
 
 try:
-    from .config import *
+    from reala.config import *
 except:
     DATABASE_NAME = os.environ['DATABASE_NAME']
     DATABASE_USER = os.environ['DATABASE_USER']
@@ -47,11 +48,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'rest_framework',
     'reala_api',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,12 +68,13 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
+        #'rest_framework.permissions.IsAdminUser',
     ],
     'PAGE_SIZE': 10
 }
 
 ROOT_URLCONF = 'reala.urls'
+SITE_ID = 1
 
 TEMPLATES = [
     {
@@ -88,7 +93,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'reala.wsgi.application'
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases

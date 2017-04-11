@@ -48,15 +48,15 @@ class Owner(models.Model):
     # Contact Info
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
-    home = models.ForeignKey(Parcel, on_delete=models.CASCADE, null=True)
+    home = models.ForeignKey(Parcel, null=True)
     phone_number = models.CharField(max_length=32, null=True)
     phone_verified = models.BooleanField(default=False)
     do_not_contact = models.BooleanField(default=False)
-    email_address = models.CharField(max_length=64, null=True)
+    email_address = models.CharField(max_length=64, default=None, null=True)
 
     # Features
     age = models.IntegerField(default=None, null=True)
-    gender = models.CharField(max_length=16,null=True)
+    gender = models.CharField(max_length=16, default=None, null=True)
     notes = models.TextField(default=None, null=True)
 
     def __str__(self):
