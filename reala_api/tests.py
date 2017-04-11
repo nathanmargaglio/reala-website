@@ -34,11 +34,7 @@ class ParcelTestCase(TestCase):
         Makes sure we get our proper validated Parcel object back.
         """
         # In the Database Already
-        parcel = get_parcel_geocode({'street_number': '18',
-                                     'route': 'Vera Ave',
-                                     'city': 'Buffalo',
-                                     'state': 'NY',
-                                     'postal_code': '14225'})
+        parcel = get_parcel_geocode('18 Vera Ave, Buffalo, NY 14225')
 
         self.assertEqual(parcel.street_number, '18')
         self.assertEqual(parcel.route, 'Vera Ave')
@@ -46,11 +42,7 @@ class ParcelTestCase(TestCase):
         self.assertEqual(parcel.state, 'NY')
         self.assertEqual(parcel.postal_code, '14225')
 
-        parcel = get_parcel_geocode({'street_number': '1600',
-                                     'route': 'Ampitheatre Parkway',
-                                     'city': 'Mountain View',
-                                     'state': 'CA',
-                                     'postal_code': '94943'})
+        parcel = get_parcel_geocode('1600 Ampitheatre Pkwy Mountain View CA 94043')
 
         self.assertEqual(parcel.street_number, '1600')
         self.assertEqual(parcel.route, 'Amphitheatre Pkwy')
@@ -62,11 +54,7 @@ class ParcelTestCase(TestCase):
         """
         #TODO: Fill this out.
         """
-        parcel = search_parcel({'street_number': '18',
-                                'route': 'Vera Ave',
-                                'city': 'Buffalo',
-                                'state': 'NY',
-                                'postal_code': '14225'})
+        parcel = search_parcel('18 Vera Ave, Buffalo, NY 14225')
 
         self.assertEqual(parcel.street_number, '18')
         self.assertEqual(parcel.route, 'Vera Ave')
@@ -74,11 +62,7 @@ class ParcelTestCase(TestCase):
         self.assertEqual(parcel.state, 'NY')
         self.assertEqual(parcel.postal_code, '14225')
 
-        parcel = search_parcel({'street_number': '1600',
-                                'route': 'Ampitheatre Parkway',
-                                'city': 'Mountain View',
-                                'state': 'CA',
-                                'postal_code': '94943'})
+        parcel = search_parcel('1600 Ampitheatre Pkwy Mountain View CA 94043')
 
         self.assertEqual(parcel.street_number, '1600')
         self.assertEqual(parcel.route, 'Amphitheatre Pkwy')
@@ -86,10 +70,6 @@ class ParcelTestCase(TestCase):
         self.assertEqual(parcel.state, 'CA')
         self.assertEqual(parcel.postal_code, '94043')
 
-        parcel = search_parcel({'street_number': '',
-                                'route': 'Ampitheatre Parkway',
-                                'city': 'Mountain View',
-                                'state': 'CA',
-                                'postal_code': '94943'})
+        parcel = search_parcel('Vera Ave, Buffalo, NY 14225')
 
         self.assertIsNone(parcel)

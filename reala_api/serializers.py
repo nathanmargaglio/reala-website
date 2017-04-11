@@ -33,20 +33,18 @@ class ParcelSerializer(serializers.ModelSerializer):
         home_data['postal_code'] = validated_data.pop('postal_code')
 
         parcel = search_parcel(home_data)
-        # TODO: Get the rest of the data in there
+        parcel.objects.update(**validated_data)
+        parcel.save()
+
         return parcel
 
 
 class ParcelCompactSerializer(serializers.ModelSerializer):
-    street_number = serializers.CharField(allow_blank=True)
-    route = serializers.CharField(allow_blank=True)
-    city = serializers.CharField(allow_blank=True)
-    state = serializers.CharField(allow_blank=True)
-    postal_code = serializers.CharField(allow_blank=True)
+    formatted_address = serializers.CharField(allow_blank=True)
 
     class Meta:
         model = Parcel
-        fields = ('id', 'street_number', 'route', 'city', 'state', 'postal_code')
+        fields = ('id', 'formatted_address')
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -74,15 +72,23 @@ class OwnerSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         home_data = validated_data.pop('home')
         owner = Owner.objects.create(**validated_data)
-        owner.home = search_parcel(home_data)
+        owner.home = search_parcel(home_data['formatted_address'])
         owner.save()
 
         return owner
 
     def update(self, instance, validated_data):
         home_data = validated_data['home']
-        parcel = search_parcel(home_data)
+        parcel = search_parcel(home_data['formatted_address'])
         instance.home = parcel
         instance.save()
 
         return instance
+
+
+class LeadSerializer(serializers.ModelSerializer):
+    home = ParcelCompactSerializer()
+
+    class Meta:
+        model = Owner
+        fields = ('id', 'first_name', 'last_name', 'home')

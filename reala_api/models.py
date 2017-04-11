@@ -13,6 +13,7 @@ class Parcel(models.Model):
     contact = models.ForeignKey('Owner', null=True, on_delete=models.CASCADE)
 
     # Location Info
+    formatted_address = models.CharField(max_length=128, default='')
     street_number = models.CharField(max_length=16)
     route = models.CharField(max_length=32)
     city = models.CharField(max_length=32)
