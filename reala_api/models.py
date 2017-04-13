@@ -10,7 +10,7 @@ class Parcel(models.Model):
 
     # Meta Info
     created = models.DateTimeField(auto_now_add=True)
-    contact = models.ForeignKey('Owner', null=True, on_delete=models.CASCADE)
+    contact = models.ForeignKey('Owner', related_name='parcels', null=True, on_delete=models.CASCADE)
 
     # Location Info
     formatted_address = models.CharField(max_length=128, default=None, null=True)
@@ -67,7 +67,7 @@ class Owner(models.Model):
 class Event(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
-    occurred = models.DateTimeField(null=True)
+    occurred = models.DateTimeField(default=None, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     owner = models.ForeignKey(Owner, related_name='events', on_delete=models.CASCADE, null=True)
     type = models.CharField(max_length=32, null=True)
@@ -76,3 +76,7 @@ class Event(models.Model):
 
     def __str__(self):
         return self.type
+
+    class Meta:
+        ordering = ['-occurred']
+

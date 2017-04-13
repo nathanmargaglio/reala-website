@@ -78,10 +78,11 @@ class EventCompactSerializer(serializers.ModelSerializer):
 class OwnerSerializer(serializers.ModelSerializer):
     events = EventCompactSerializer(many=True, read_only=True)
     home = ParcelCompactSerializer()
+    parcels = ParcelCompactSerializer(many=True)
 
     class Meta:
         model = Owner
-        fields = ('id', 'first_name', 'last_name', 'events',
+        fields = ('id', 'first_name', 'last_name', 'parcels', 'events',
                   'phone_number', 'phone_verified', 'do_not_contact',
                   'email_address', 'age', 'gender', 'home')
 
@@ -89,6 +90,8 @@ class OwnerSerializer(serializers.ModelSerializer):
         home_data = validated_data.pop('home')
         owner = Owner.objects.create(**validated_data)
         owner.home = search_parcel(home_data['formatted_address'])
+        owner.home.contact = owner
+        owner.home.save()
         owner.save()
 
         return owner
@@ -97,6 +100,8 @@ class OwnerSerializer(serializers.ModelSerializer):
         home_data = validated_data['home']
         parcel = search_parcel(home_data['formatted_address'])
         instance.home = parcel
+        parcel.contact = instance
+        parcel.save()
         instance.save()
 
         return instance
@@ -104,7 +109,28 @@ class OwnerSerializer(serializers.ModelSerializer):
 
 class LeadSerializer(serializers.ModelSerializer):
     home = ParcelCompactSerializer()
+    events = EventCompactSerializer(many=True, read_only=True)
 
     class Meta:
         model = Owner
-        fields = ('id', 'first_name', 'last_name', 'home')
+        fields = ('id', 'first_name', 'last_name', 'home', 'events')
+
+    def create(self, validated_data):
+        home_data = validated_data.pop('home')
+        owner = Owner.objects.create(**validated_data)
+        owner.home = search_parcel(home_data['formatted_address'])
+        owner.home.contact = owner
+        owner.home.save()
+        owner.save()
+
+        return owner
+
+    def update(self, instance, validated_data):
+        home_data = validated_data['home']
+        parcel = search_parcel(home_data['formatted_address'])
+        instance.home = parcel
+        parcel.contact = instance
+        parcel.save()
+        instance.save()
+
+        return instance

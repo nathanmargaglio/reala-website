@@ -80,7 +80,7 @@ def get_parcel_geocode(formatted_address):
 def search_parcel(formatted_address):
     """
     Searches the database for the address.  If found, it is returned.  If not, it is created.
-    :param data: Address Dictionary
+    :param formatted_address: string e.g., '123 Fake St, Buffalo NY 14225'
     :return: Parcel Object
     """
 
@@ -90,7 +90,7 @@ def search_parcel(formatted_address):
         print('Getting matching Parcel.')
         return queryset.get(formatted_address=formatted_address)
     except MultipleObjectsReturned:
-        print("There's more than one house.")
+        print("There's more than one matching house.")
         return None
     except ObjectDoesNotExist:
         print("Returning new Parcel Object.")

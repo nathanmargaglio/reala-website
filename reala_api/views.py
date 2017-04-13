@@ -8,6 +8,7 @@ from django.template import RequestContext
 
 def index(request):
     context = {}
+    print("loaded...")
     return render(request, 'index.html', context=context)
 
 
@@ -55,5 +56,9 @@ class LeadViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-    queryset = Owner.objects.all()
+
+    def get_queryset(self):
+        queryset = Owner.objects.all()
+        return queryset
+
     serializer_class = LeadSerializer
