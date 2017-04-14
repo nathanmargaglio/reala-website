@@ -3,13 +3,31 @@ from rest_framework import viewsets
 from reala_api.models import Parcel, Owner, Event
 from reala_api.serializers import UserSerializer, GroupSerializer, ParcelSerializer, OwnerSerializer, EventSerializer, LeadSerializer
 from django.shortcuts import render
+from django.shortcuts import render_to_response, redirect, render
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 
 
+#@login_required(login_url='/soc/login/google-oauth2/?next=api')
 def index(request):
     context = {}
     print("loaded...")
     return render(request, 'index.html', context=context)
+
+
+def login(request):
+    return render_to_response('login.html', context=RequestContext(request))
+
+
+@login_required(login_url='/soc/login/google-oauth2')
+def home(request):
+    return render_to_response('home.html')
+
+
+def logout(request):
+    auth_logout(request)
+    return redirect('/')
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -58,7 +76,11 @@ class LeadViewSet(viewsets.ModelViewSet):
     """
 
     def get_queryset(self):
-        queryset = Owner.objects.all()
+        queryset = Owner.objects.all().order_by('pk')
+        postal_code = self.request.query_params.get('postal_code', None)
+        if postal_code is not None:
+            queryset = queryset.filter(home__postal_code=postal_code)
+
         return queryset
 
     serializer_class = LeadSerializer

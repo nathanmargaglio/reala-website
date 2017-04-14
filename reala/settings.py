@@ -49,7 +49,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
     'reala_api',
     'corsheaders',
 ]
@@ -74,7 +82,7 @@ REST_FRAMEWORK = {
 }
 
 ROOT_URLCONF = 'reala.urls'
-SITE_ID = 1
+SITE_ID = 2
 
 TEMPLATES = [
     {
@@ -128,6 +136,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    #'social.backends.google.GoogleOAuth2',
+    #'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend')
+
+LOGIN_REDIRECT_URL = '/home/'
+
+#DRFSO2_PROPRIETARY_BACKEND_NAME = 'google-oauth2'
+#DRFSO2_URL_NAMESPACE = 'social'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
