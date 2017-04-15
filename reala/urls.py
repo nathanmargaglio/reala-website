@@ -15,7 +15,6 @@ router.register(r'leads', views.LeadViewSet, base_name='leads')
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^home/', views.home, name='home'),
     url(r'^api/', include(router.urls)),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

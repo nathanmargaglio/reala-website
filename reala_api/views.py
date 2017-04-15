@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 
 
-#@login_required(login_url='/soc/login/google-oauth2/?next=api')
+@login_required(login_url='/accounts/login')
 def index(request):
     context = {}
     print("loaded...")
@@ -18,11 +18,6 @@ def index(request):
 
 def login(request):
     return render_to_response('login.html', context=RequestContext(request))
-
-
-@login_required(login_url='/soc/login/google-oauth2')
-def home(request):
-    return render_to_response('home.html')
 
 
 def logout(request):
