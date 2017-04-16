@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 
 
-@login_required(login_url='/accounts/login')
+#@login_required(login_url='/accounts/login')
 def index(request):
     context = {}
     print("loaded...")
