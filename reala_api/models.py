@@ -70,12 +70,16 @@ class Event(models.Model):
     occurred = models.DateTimeField(default=None, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     owner = models.ForeignKey(Owner, related_name='events', on_delete=models.CASCADE, null=True)
+
     type = models.CharField(max_length=32, null=True)
     details = models.CharField(max_length=32, null=True)
     notes = models.TextField(default=None, null=True)
 
     def __str__(self):
-        return self.type
+        if self.type is not None:
+            return self.type
+        else:
+            return "Undefined Event"
 
     class Meta:
         ordering = ['-occurred']

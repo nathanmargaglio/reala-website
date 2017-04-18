@@ -6,15 +6,8 @@ try:
 except:
     GEOLOC_KEY = os.environ['GEOLOC_KEY']
 
-try:
-    from reala_api.models import Parcel, Owner, Event
-except:
-    import django
-    from django.conf import settings
-
-    settings.configure(DEBUG=True)
-    django.setup()
-    from reala_api.models import Parcel, Owner, Event
+from reala_api.models import Parcel, Owner, Event
+from django.utils import timezone
 
 
 def get_parcel_geocode(formatted_address):
@@ -64,15 +57,18 @@ def get_parcel_geocode(formatted_address):
     except ObjectDoesNotExist:
         print("Couldn't find parcel.  Making it now.")
         parcel = Parcel()
-        parcel.formatted_address = parcel_data['formatted_address']
-        parcel.street_number = parcel_data['street_number']
-        parcel.route = parcel_data['route']
-        parcel.city = parcel_data['city']
-        parcel.state = parcel_data['state']
-        parcel.postal_code = parcel_data['postal_code']
-        parcel.lat = parcel_data['lat']
-        parcel.lng = parcel_data['lng']
-        parcel.save()
+        try:
+            parcel.formatted_address = parcel_data['formatted_address']
+            parcel.street_number = parcel_data['street_number']
+            parcel.route = parcel_data['route']
+            parcel.city = parcel_data['city']
+            parcel.state = parcel_data['state']
+            parcel.postal_code = parcel_data['postal_code']
+            parcel.lat = parcel_data['lat']
+            parcel.lng = parcel_data['lng']
+            parcel.save()
+        except KeyError:
+            return None
 
     return parcel
 
@@ -95,6 +91,38 @@ def search_parcel(formatted_address):
     except ObjectDoesNotExist:
         print("Returning new Parcel Object.")
         return get_parcel_geocode(formatted_address)
+
+    print("Something went wrong.")
+    return None
+
+
+def get_user_created_event(user, owner_id):
+    """
+    :param user: a user Model
+    :return: either a new Event object or an old Event object based on the user's previous events.
+    """
+
+    try:
+        owner = Owner.objects.get(pk=owner_id)
+    except ObjectDoesNotExist:
+        print("Owner doesn't exist.")
+        return None
+
+    queryset = Event.objects.all()
+    queryset = queryset.filter(user=user, owner=owner)
+
+    e = queryset.first()
+    print("Count",len(queryset))
+
+    try:
+        if e.occurred.date() <= timezone.now().date():
+            print("Found recent event.")
+            return e
+    except AttributeError:
+        e = Event()
+        e.user = user
+        e.owner = owner
+        return e
 
     print("Something went wrong.")
     return None

@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from reala_api.models import Parcel, Owner, Event
-from reala_api.helpers import search_parcel
+from reala_api.helpers import search_parcel, get_user_created_event
+from django.utils import timezone
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -64,9 +65,33 @@ class ParcelCompactSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
+    owner = serializers.CharField(required=True)
+
     class Meta:
         model = Event
         fields = ('id', 'occurred', 'user', 'owner', 'type', 'details', 'notes')
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        owner_id = validated_data['owner']
+
+        occurred = timezone.now()
+        etype = 'interest'
+        if validated_data['occurred']:
+            occurred = validated_data['occurred']
+        if validated_data['type']:
+            etype = validated_data['type']
+
+        e = get_user_created_event(user, owner_id)
+        e.occurred = occurred
+        e.type = etype
+
+        if validated_data['details']:
+            e.details = validated_data['details']
+        if validated_data['notes']:
+            e.notes = validated_data['notes']
+        e.save()
+        return e
 
 
 class EventCompactSerializer(serializers.ModelSerializer):

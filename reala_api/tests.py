@@ -1,6 +1,7 @@
 from django.test import TestCase
 from reala_api.models import Parcel, Owner, Event
-from reala_api.helpers import get_parcel_geocode, search_parcel
+from django.contrib.auth.models import User, Group
+from reala_api.helpers import get_parcel_geocode, search_parcel, get_user_created_event
 
 
 # Create your tests here.
@@ -73,3 +74,21 @@ class ParcelTestCase(TestCase):
         parcel = search_parcel('Vera Ave, Buffalo, NY 14225')
 
         self.assertIsNone(parcel)
+
+class EventTestCase(TestCase):
+
+
+    def setUp(self):
+        Owner.objects.create(first_name='Nathan',
+                             last_name='Margaglio',
+                             home=search_parcel('18 vera ave, buffalo, ny 14225'))
+        self.user = User.objects.create(username='nathanmargaglio',
+                                        email='nathanmargaglio@gmail.com')
+
+    def test_get_user_created_event(self):
+        e = get_user_created_event(self.user, '1')
+        e.type = "new"
+        print(e)
+
+        e = get_user_created_event(self.user, '1')
+        print(e)
