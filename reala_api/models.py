@@ -71,6 +71,13 @@ class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     owner = models.ForeignKey(Owner, related_name='events', on_delete=models.CASCADE, null=True)
 
+    # Organizational Booleans
+    claimed = models.BooleanField(default=False)
+    called = models.BooleanField(default=False)
+    mailed = models.BooleanField(default=False)
+    social = models.BooleanField(default=False)
+    other = models.BooleanField(default=False)
+
     type = models.CharField(max_length=32, null=True)
     details = models.CharField(max_length=32, null=True)
     notes = models.TextField(default=None, null=True)

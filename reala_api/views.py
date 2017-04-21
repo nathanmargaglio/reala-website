@@ -61,6 +61,15 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
+
+    def get_queryset(self):
+        queryset = Event.objects.all()
+        owner = self.request.query_params.get('owner', None)
+        if owner is not None:
+            queryset = queryset.filter(owner__id=owner)
+
+        return queryset
+
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 

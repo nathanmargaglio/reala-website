@@ -23,7 +23,10 @@ def get_parcel_geocode(formatted_address):
     r = requests.get(
         "{}{}&key=".format(base_url, formatted_address, GEOLOC_KEY))
 
-    api_data = r.json()['results'][0]
+    try:
+        api_data = r.json()['results'][0]
+    except IndexError:
+        return None
 
     # Construct the parcel_data dictionary
     parcel_data = {}
@@ -98,10 +101,11 @@ def search_parcel(formatted_address):
 
 def get_user_created_event(user, owner_id):
     """
-    :param user: a user Model
-    :return: either a new Event object or an old Event object based on the user's previous events.
+    :param user:
+    :param owner_id:
+    :param today_only:
+    :return:
     """
-
     try:
         owner = Owner.objects.get(pk=owner_id)
     except ObjectDoesNotExist:
@@ -109,10 +113,13 @@ def get_user_created_event(user, owner_id):
         return None
 
     queryset = Event.objects.all()
-    queryset = queryset.filter(user=user, owner=owner)
+    if user.id is not None:
+        queryset = queryset.filter(user=user, owner=owner)
+    else:
+        queryset = queryset.filter(user=None, owner=owner)
+        user = None
 
     e = queryset.first()
-    print("Count",len(queryset))
 
     try:
         if e.occurred.date() <= timezone.now().date():
@@ -124,5 +131,4 @@ def get_user_created_event(user, owner_id):
         e.owner = owner
         return e
 
-    print("Something went wrong.")
     return None

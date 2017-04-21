@@ -69,7 +69,9 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('id', 'occurred', 'user', 'owner', 'type', 'details', 'notes')
+
+        fields = ('id', 'occurred', 'user', 'owner', 'type', 'details', 'notes',
+                  'claimed', 'called', 'mailed', 'social', 'other')
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -77,18 +79,18 @@ class EventSerializer(serializers.ModelSerializer):
 
         occurred = timezone.now()
         etype = 'interest'
-        if validated_data['occurred']:
+        if 'occurred' in validated_data:
             occurred = validated_data['occurred']
-        if validated_data['type']:
+        if 'type' in validated_data:
             etype = validated_data['type']
 
         e = get_user_created_event(user, owner_id)
         e.occurred = occurred
         e.type = etype
 
-        if validated_data['details']:
+        if 'details' in validated_data:
             e.details = validated_data['details']
-        if validated_data['notes']:
+        if 'notes' in validated_data:
             e.notes = validated_data['notes']
         e.save()
         return e
@@ -103,7 +105,18 @@ class EventCompactSerializer(serializers.ModelSerializer):
 class OwnerSerializer(serializers.ModelSerializer):
     events = EventCompactSerializer(many=True, read_only=True)
     home = ParcelCompactSerializer()
-    parcels = ParcelCompactSerializer(many=True)
+    parcels = ParcelCompactSerializer(many=True, read_only=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        """
+        user = self.context['request'].user
+        owner_id = args[0].id
+        e = get_user_created_event(user, owner_id)
+        e.type = "Contact"
+        e.occurred = timezone.now()
+        e.save()
+        """
 
     class Meta:
         model = Owner
@@ -114,9 +127,11 @@ class OwnerSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         home_data = validated_data.pop('home')
         owner = Owner.objects.create(**validated_data)
+        owner.save()
         owner.home = search_parcel(home_data['formatted_address'])
-        owner.home.contact = owner
-        owner.home.save()
+        if owner.home is not None:
+            owner.home.contact = owner
+            owner.home.save()
         owner.save()
 
         return owner
@@ -125,6 +140,16 @@ class OwnerSerializer(serializers.ModelSerializer):
         home_data = validated_data['home']
         parcel = search_parcel(home_data['formatted_address'])
         instance.home = parcel
+
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
+        instance.phone_verified = validated_data.get('phone_verified', instance.phone_verified)
+        instance.do_not_contact = validated_data.get('do_not_contact', instance.do_not_contact)
+        instance.email_address = validated_data.get('email_address', instance.email_address)
+        instance.age = validated_data.get('age', instance.age)
+        instance.gender = validated_data.get('gender', instance.gender)
+        
         parcel.contact = instance
         parcel.save()
         instance.save()

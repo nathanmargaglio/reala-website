@@ -76,6 +76,7 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
+        #'rest_framework.permissions.IsAuthenticated',
         #'rest_framework.permissions.IsAdminUser',
     ],
     'PAGE_SIZE': 10
@@ -143,7 +144,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend')
 
-LOGIN_REDIRECT_URL = '/home/'
+LOGIN_REDIRECT_URL = '/'
 
 #DRFSO2_PROPRIETARY_BACKEND_NAME = 'google-oauth2'
 #DRFSO2_URL_NAMESPACE = 'social'
