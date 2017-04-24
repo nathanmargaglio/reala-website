@@ -6,12 +6,18 @@ from django.utils import timezone
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Simple User Serializer for read/write API
+    """
     class Meta:
         model = User
         fields = ('url', 'username', 'email', 'groups')
 
 
 class GroupSerializer(serializers.ModelSerializer):
+    """
+    Simple Group Serializer for read/write API
+    """
     class Meta:
         model = Group
         fields = ('url', 'name')
