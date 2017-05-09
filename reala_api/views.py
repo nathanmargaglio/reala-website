@@ -81,6 +81,7 @@ class LeadViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Owner.objects.all().order_by('pk')
+        queryset = queryset.filter(home__isnull=False)
         postal_code = self.request.query_params.get('postal_code', None)
         if postal_code is not None:
             queryset = queryset.filter(home__postal_code=postal_code)

@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Simple User Serializer for read/write API
     """
+
     class Meta:
         model = User
         fields = ('url', 'username', 'email', 'groups')
@@ -18,6 +19,7 @@ class GroupSerializer(serializers.ModelSerializer):
     """
     Simple Group Serializer for read/write API
     """
+
     class Meta:
         model = Group
         fields = ('url', 'name')
@@ -71,7 +73,7 @@ class ParcelCompactSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-    owner = serializers.CharField(required=True)
+    # owner = serializers.CharField(required=True)
 
     class Meta:
         model = Event
@@ -81,16 +83,16 @@ class EventSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
-        owner_id = validated_data['owner']
+        owner = validated_data['owner']
 
         occurred = timezone.now()
-        etype = 'interest'
+        etype = 'Contact'
         if 'occurred' in validated_data:
             occurred = validated_data['occurred']
         if 'type' in validated_data:
             etype = validated_data['type']
 
-        e = get_user_created_event(user, owner_id)
+        e = get_user_created_event(user, owner.id)
         e.occurred = occurred
         e.type = etype
 
@@ -98,6 +100,18 @@ class EventSerializer(serializers.ModelSerializer):
             e.details = validated_data['details']
         if 'notes' in validated_data:
             e.notes = validated_data['notes']
+
+        if 'claimed' in validated_data:
+            e.claimed = validated_data['claimed']
+        if 'called' in validated_data:
+            e.called = validated_data['called']
+        if 'mailed' in validated_data:
+            e.mailed = validated_data['mailed']
+        if 'social' in validated_data:
+            e.social = validated_data['social']
+        if 'other' in validated_data:
+            e.other = validated_data['other']
+
         e.save()
         return e
 
@@ -112,6 +126,10 @@ class OwnerSerializer(serializers.ModelSerializer):
     events = EventCompactSerializer(many=True, read_only=True)
     home = ParcelCompactSerializer()
     parcels = ParcelCompactSerializer(many=True, read_only=True)
+
+    gender = serializers.CharField(allow_blank=True)
+    phone_number = serializers.CharField(allow_blank=True)
+    email_address = serializers.CharField(allow_blank=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -155,7 +173,7 @@ class OwnerSerializer(serializers.ModelSerializer):
         instance.email_address = validated_data.get('email_address', instance.email_address)
         instance.age = validated_data.get('age', instance.age)
         instance.gender = validated_data.get('gender', instance.gender)
-        
+
         parcel.contact = instance
         parcel.save()
         instance.save()

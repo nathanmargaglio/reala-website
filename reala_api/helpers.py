@@ -122,8 +122,13 @@ def get_user_created_event(user, owner_id):
     e = queryset.first()
 
     try:
-        if e.occurred.date() <= timezone.now().date():
+        if e.occurred.date() >= timezone.now().date():
             print("Found recent event.")
+            return e
+        else:
+            e = Event()
+            e.user = user
+            e.owner = owner
             return e
     except AttributeError:
         e = Event()
