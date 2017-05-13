@@ -3,14 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
     {% if user and not user.is_anonymous %}
-      <a>Hello, {{ user.get_full_name }}!</a>
+      <a>Hello, {{ user }}!</a>
       <br>
       <a href="/logout">Logout</a>
     {% else %}
-      <a href="accounts/login?next=/">Login with Google</a>
+        Username: <br>
+        <input type="text" name="username" id="username"><br>
+        Password: <br>
+        <input type="password" name="password" id="password"><br>
+        <input type="submit" value="Submit" id="submit_creds">
     {% endif %}
+    <br><br>
+    <a href="#" id="clicker">HERE!</a>
 </body>
+<script>
+    function createCookie(name, value, hours) {
+        var expires;
+
+        if (hours) {
+            var date = new Date();
+            date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+            expires = "; expires=" + date.toGMTString();
+        } else {
+            expires = "";
+        }
+        document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+    }
+
+    function readCookie(name) {
+        var nameEQ = encodeURIComponent(name) + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        createCookie(name, "", -1);
+    }
+
+    access_token = '';
+    client_id = 'ZvKaxqhmyG4HopZGo14YKlC9SXj8zW852GJyQmRY';
+    $('#submit_creds').click(function(){
+        $.post('/o/token/',
+                {
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                    grant_type: 'password',
+                    client_id: client_id
+                },
+                function(data) {
+                    access_token = data['access_token']
+                    $.ajaxSetup({
+                        headers: { 'Authorization': 'Bearer ' + access_token}
+                    });
+                    createCookie('Authorization', 'Bearer ' + access_token, 10);
+                    console.log("Logged In!")
+                }
+        );
+       $('#clicker').text("CLICK!");
+    });
+
+    $('#clicker').click(function(){
+        console.log("CLICKED!")
+        $.get('/secret',
+                function(data) {
+                    console.log(data);
+                }
+        );
+    });
+</script>
 </html>

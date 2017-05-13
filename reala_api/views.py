@@ -7,21 +7,32 @@ from django.shortcuts import render_to_response, redirect, render
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
+from oauth2_provider.views.generic import ProtectedResourceView
+from django.http import HttpResponse
 
 
-#@login_required(login_url='/accounts/login')
 def index(request):
     context = {}
     print("loaded...")
     return render(request, 'index.html', context=context)
 
 
+# TODO
+class ApiEndpoint(ProtectedResourceView):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('Hello, OAuth2!')
+
+
+@login_required(login_url='/login')
+def secret_page(request, *args, **kwargs):
+    return HttpResponse('Secret contents!', status=200)
+
+
 def login(request):
-    return render_to_response('login.html', context=RequestContext(request))
+    return render_to_response('login.html', context={'user': request.user})
 
 
 def logout(request):
-    auth_logout(request)
     return redirect('/')
 
 
