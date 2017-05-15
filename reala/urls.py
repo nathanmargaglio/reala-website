@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
 from reala_api import views
+from django.views.decorators.csrf import csrf_exempt
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -14,7 +15,6 @@ router.register(r'leads', views.LeadViewSet, base_name='leads')
 # OAUTH2
 import oauth2_provider.views as oauth2_views
 from django.conf import settings
-from reala_api.views import ApiEndpoint
 
 # OAuth2 provider endpoints
 oauth2_endpoint_views = [
@@ -49,8 +49,4 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url(r'^api/hello', ApiEndpoint.as_view()),
-    url(r'^secret$', views.secret_page, name='secret'),
-    url(r'^login$', views.login, name='login'),
-    url(r'^logout$', views.logout, name='logout'),
 ]

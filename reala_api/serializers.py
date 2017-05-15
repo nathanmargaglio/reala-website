@@ -72,50 +72,6 @@ class ParcelCompactSerializer(serializers.ModelSerializer):
         fields = ('id', 'formatted_address')
 
 
-class EventSerializer(serializers.ModelSerializer):
-    # owner = serializers.CharField(required=True)
-
-    class Meta:
-        model = Event
-
-        fields = ('id', 'occurred', 'user', 'owner', 'type', 'details', 'notes',
-                  'claimed', 'called', 'mailed', 'social', 'other')
-
-    def create(self, validated_data):
-        user = self.context['request'].user
-        owner = validated_data['owner']
-
-        occurred = timezone.now()
-        etype = 'Contact'
-        if 'occurred' in validated_data:
-            occurred = validated_data['occurred']
-        if 'type' in validated_data:
-            etype = validated_data['type']
-
-        e = get_user_created_event(user, owner.id)
-        e.occurred = occurred
-        e.type = etype
-
-        if 'details' in validated_data:
-            e.details = validated_data['details']
-        if 'notes' in validated_data:
-            e.notes = validated_data['notes']
-
-        if 'claimed' in validated_data:
-            e.claimed = validated_data['claimed']
-        if 'called' in validated_data:
-            e.called = validated_data['called']
-        if 'mailed' in validated_data:
-            e.mailed = validated_data['mailed']
-        if 'social' in validated_data:
-            e.social = validated_data['social']
-        if 'other' in validated_data:
-            e.other = validated_data['other']
-
-        e.save()
-        return e
-
-
 class EventCompactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
@@ -180,6 +136,48 @@ class OwnerSerializer(serializers.ModelSerializer):
 
         return instance
 
+
+class EventSerializer(serializers.ModelSerializer):
+    # owner = serializers.CharField(required=True)
+
+    class Meta:
+        model = Event
+        fields = ('id', 'occurred', 'user', 'owner', 'type', 'details', 'notes',
+                  'claimed', 'called', 'mailed', 'social', 'other')
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        owner = validated_data['owner']
+
+        occurred = timezone.now()
+        etype = 'Contact'
+        if 'occurred' in validated_data:
+            occurred = validated_data['occurred']
+        if 'type' in validated_data:
+            etype = validated_data['type']
+
+        e = get_user_created_event(user, owner.id)
+        e.occurred = occurred
+        e.type = etype
+
+        if 'details' in validated_data:
+            e.details = validated_data['details']
+        if 'notes' in validated_data:
+            e.notes = validated_data['notes']
+
+        if 'claimed' in validated_data:
+            e.claimed = validated_data['claimed']
+        if 'called' in validated_data:
+            e.called = validated_data['called']
+        if 'mailed' in validated_data:
+            e.mailed = validated_data['mailed']
+        if 'social' in validated_data:
+            e.social = validated_data['social']
+        if 'other' in validated_data:
+            e.other = validated_data['other']
+
+        e.save()
+        return e
 
 class LeadSerializer(serializers.ModelSerializer):
     home = ParcelCompactSerializer()

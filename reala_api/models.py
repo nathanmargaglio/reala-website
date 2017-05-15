@@ -70,7 +70,7 @@ class Event(models.Model):
     occurred = models.DateTimeField(default=None, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     owner = models.ForeignKey(Owner, related_name='events', on_delete=models.CASCADE, null=True)
-
+    ownerid = models.IntegerField(null=True)
     # Organizational Booleans
     claimed = models.BooleanField(default=False)
     called = models.BooleanField(default=False)

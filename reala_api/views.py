@@ -1,39 +1,22 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from reala_api.models import Parcel, Owner, Event
-from reala_api.serializers import UserSerializer, GroupSerializer, ParcelSerializer, OwnerSerializer, EventSerializer, LeadSerializer
+from reala_api.serializers import UserSerializer, GroupSerializer, ParcelSerializer, OwnerSerializer, EventSerializer, \
+    LeadSerializer
 from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect, render
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
-from oauth2_provider.views.generic import ProtectedResourceView
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.template import RequestContext
 
 
 def index(request):
     context = {}
     print("loaded...")
     return render(request, 'index.html', context=context)
-
-
-# TODO
-class ApiEndpoint(ProtectedResourceView):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse('Hello, OAuth2!')
-
-
-@login_required(login_url='/login')
-def secret_page(request, *args, **kwargs):
-    return HttpResponse('Secret contents!', status=200)
-
-
-def login(request):
-    return render_to_response('login.html', context={'user': request.user})
-
-
-def logout(request):
-    return redirect('/')
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -89,7 +72,6 @@ class LeadViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-
     def get_queryset(self):
         queryset = Owner.objects.all().order_by('pk')
         queryset = queryset.filter(home__isnull=False)
