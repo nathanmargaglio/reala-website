@@ -10,7 +10,7 @@ module.exports = "<div *ngFor=\"let lead of leadsData\">\n  <lead [leadData]=\"l
 /***/ 142:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"lead-card card\">\n  <div class=\"row\">\n    <i class=\"material-icons col s2\">home</i>\n    <div class=\"col s10 slim\">\n      <div>\n        <span class=\"truncate\">{{first_name}} {{last_name}}</span>\n      </div>\n      <div>\n        <span class=\"truncate\">{{formatted_address}}</span>\n      </div>\n      <br>\n      <div class=\"slim\" *ngFor=\"let event of events\">\n        <div class=\"chip truncate tooltipped\" data-position=\"top\" data-delay=\"50\" data-tooltip=\"I am tooltip\">\n          <img src=\"{{get_icon_url(event)}}\" alt=\"Event\">\n          <b>({{get_occurred(event)}}):</b>&nbsp; {{get_type(event)}} &nbsp;\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"divider\"></div>\n\n  <div class=\"row section\">\n    <i class=\"material-icons col s3 center\" (click)=\"open_modal()\">filter_drama</i>\n    <i class=\"material-icons col s3 center\">perm_contact_calendar</i>\n    <i class=\"material-icons col s3 center\">compare_arrows</i>\n    <i class=\"material-icons col s3 center\">announcement</i>\n  </div>\n</div>\n\n<!-- Modal Structure -->\n<div id='modal_{{id}}' class=\"modal\">\n  <a class=\"col s3 center modal-action modal-close waves-effect waves-green btn-flat\"><i class=\"material-icons\">done</i></a>\n  <ul class=\"modal-content slim\" style=\"padding-top: 0;\">\n    <blockquote>\n      <span class=\"truncate\">{{first_name}} {{last_name}}</span>\n      <span class=\"truncate\">{{email_address}} </span>\n      <span class=\"truncate\">{{phone_number}} </span>\n      <span class=\"truncate\">{{formatted_address}} </span>\n    </blockquote>\n\n    <div class=\"card\">\n      <div class=\"card-content\">\n        <div class=\"input-field row\">\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_claimed\" (change)=\"select_claimed = !select_claimed\" type=\"checkbox\" id=\"select-claimed-{{id}}\"/>\n            <label for=\"select-claimed-{{id}}\">Claimed</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_called\" (change)=\"select_called = !select_called\" type=\"checkbox\" id=\"select-called-{{id}}\" checked/>\n            <label for=\"select-called-{{id}}\">Called</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_mailed\" (change)=\"select_mailed = !select_mailed\" type=\"checkbox\" id=\"select-mailed-{{id}}\"/>\n            <label for=\"select-mailed-{{id}}\">Mailed</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_social\" (change)=\"select_social = !select_social\" type=\"checkbox\" id=\"select-social-{{id}}\"/>\n            <label for=\"select-social-{{id}}\">Social</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_other\" (change)=\"select_other = !select_other\" type=\"checkbox\" id=\"select-other-{{id}}\"/>\n            <label for=\"select-other-{{id}}\">Other</label>\n          </div>\n        </div>\n\n        <div class=\"input-field\" (keydown)=\"keyFunction($event)\">\n          <input [(ngModel)]=\"notes\" placeholder=\"Notes...\" id=\"notes_{{id}}\" type=\"text\" class=\"validate\">\n          <label for=\"notes_{{id}}\">Notes:</label>\n        </div>\n\n      </div>\n    </div>\n\n    <div class=\"progress col s12 center\" id=\"lead_loader_{{id}}\">\n      <div class=\"indeterminate\"></div>\n    </div>\n\n    <br>\n\n    <div *ngFor=\"let event of events\">\n      <div class=\"chip truncate tooltipped\" data-position=\"top\" data-delay=\"50\" data-tooltip=\"I am tooltip\">\n        <img src=\"{{get_icon_url(event)}}\" alt=\"Event\">\n        <b>({{get_occurred(event)}}):</b>&nbsp; {{get_type(event)}} &nbsp;\n      </div>\n\n      <div class=\"row slim\" style=\"padding-left: 12px;\" >\n        <div *ngFor=\"let tag of get_tags(event)\">\n          <div class=\"chip col s2\" style=\"width: unset;\">{{tag}}</div>\n        </div>\n      </div>\n      <blockquote style=\"margin-top: 0; padding-left: 12px;\">\n        <span>{{get_notes(event)}}</span>\n      </blockquote>\n      <div class=\"divider\"></div>\n      <br>\n    </div>\n\n  </ul>\n</div>\n\n"
+module.exports = "<div class=\"lead-card card\">\n  <div class=\"row\">\n    <i class=\"material-icons col s2\">home</i>\n    <div class=\"col s10 slim\">\n      <div>\n        <span class=\"truncate\">{{first_name}} {{last_name}}</span>\n      </div>\n      <div>\n        <span class=\"truncate\">{{formatted_address}}</span>\n      </div>\n      <br>\n      <div class=\"slim\" *ngFor=\"let event of events\">\n        <div class=\"chip truncate tooltipped\" data-position=\"top\" data-delay=\"50\" data-tooltip=\"I am tooltip\">\n          <img src=\"{{get_icon_url(event)}}\" alt=\"Event\">\n          <b>({{get_occurred(event)}}):</b>&nbsp; {{get_type(event)}} &nbsp;\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"divider\"></div>\n\n  <div class=\"row section\">\n    <i class=\"material-icons col s3 center\" (click)=\"open_modal()\">filter_drama</i>\n    <i class=\"material-icons col s3 center\">perm_contact_calendar</i>\n    <i class=\"material-icons col s3 center\">compare_arrows</i>\n    <i class=\"material-icons col s3 center\">announcement</i>\n  </div>\n</div>\n\n<!-- Modal Structure -->\n<div id='modal_{{id}}' class=\"modal\">\n  <a class=\"col s3 center modal-action modal-close waves-effect waves-green btn-flat\"><i class=\"material-icons\">done</i></a>\n  <ul class=\"modal-content slim\" style=\"padding-top: 0;\">\n    <blockquote>\n      <span class=\"truncate\">{{first_name}} {{last_name}}</span>\n      <span class=\"truncate\">{{email_address}} </span>\n      <span class=\"truncate\">{{phone_number}} </span>\n      <span class=\"truncate\">{{formatted_address}} </span>\n    </blockquote>\n\n    <div class=\"card\">\n      <div class=\"card-content\">\n        <div class=\"input-field row\">\n          <div class=\"col s6 m4\">\n            <input [checked]=\"select_claimed\" (change)=\"select_claimed = !select_claimed\" type=\"checkbox\" id=\"select-claimed-{{id}}\"/>\n            <label for=\"select-claimed-{{id}}\">Claimed</label>\n          </div>\n          <div class=\"col s6 m4\">\n            <input [checked]=\"select_called\" (change)=\"select_called = !select_called\" type=\"checkbox\" id=\"select-called-{{id}}\" checked/>\n            <label for=\"select-called-{{id}}\">Called</label>\n          </div>\n          <div class=\"col s6 m4\">\n            <input [checked]=\"select_mailed\" (change)=\"select_mailed = !select_mailed\" type=\"checkbox\" id=\"select-mailed-{{id}}\"/>\n            <label for=\"select-mailed-{{id}}\">Mailed</label>\n          </div>\n          <div class=\"col s6 m4\">\n            <input [checked]=\"select_social\" (change)=\"select_social = !select_social\" type=\"checkbox\" id=\"select-social-{{id}}\"/>\n            <label for=\"select-social-{{id}}\">Social</label>\n          </div>\n          <div class=\"col s6 m4\">\n            <input [checked]=\"select_other\" (change)=\"select_other = !select_other\" type=\"checkbox\" id=\"select-other-{{id}}\"/>\n            <label for=\"select-other-{{id}}\">Other</label>\n          </div>\n        </div>\n\n        <div class=\"input-field\" (keydown)=\"keyFunction($event)\">\n          <input [(ngModel)]=\"notes\" placeholder=\"Notes...\" id=\"notes_{{id}}\" type=\"text\" class=\"validate\">\n          <label for=\"notes_{{id}}\">Notes:</label>\n        </div>\n\n      </div>\n    </div>\n\n    <div class=\"progress col s12 center\" id=\"lead_loader_{{id}}\">\n      <div class=\"indeterminate\"></div>\n    </div>\n\n    <br>\n\n    <div *ngFor=\"let event of events\">\n      <div class=\"chip truncate tooltipped\" data-position=\"top\" data-delay=\"50\" data-tooltip=\"I am tooltip\">\n        <img src=\"{{get_icon_url(event)}}\" alt=\"Event\">\n        <b>{{get_name(event)}}</b> &middot; {{get_occurred(event)}}\n      </div>\n\n      <div class=\"row slim\" style=\"padding-left: 12px;\" >\n        <div *ngFor=\"let tag of get_tags(event)\">\n          <div class=\"chip col s2\" style=\"width: unset;\">{{tag}}</div>\n        </div>\n      </div>\n      <blockquote style=\"margin-top: 0; padding-left: 12px;\">\n        <span>{{get_notes(event)}}</span>\n      </blockquote>\n      <div class=\"divider\"></div>\n      <br>\n    </div>\n\n  </ul>\n</div>\n\n"
 
 /***/ }),
 
@@ -70,52 +70,35 @@ var LeadService = (function () {
         return this.token;
     };
     LeadService.prototype.getLeads = function (filter) {
-        console.log(this.token);
-        console.log("Requesting Leads...");
         if (filter == '?') {
             filter = '';
         }
+        this.headers.set('Content-Type', 'application/x-www-form-urlencoded');
+        this.headers.set('Authorization', 'Bearer ' + this.token);
         return this.http.get(this.apiURL + '/leads/' + filter, {
             headers: this.headers,
         })
             .map(function (response) { return response.json(); });
     };
     LeadService.prototype.getLead = function (id) {
-        console.log(this.token);
+        this.headers.set('Content-Type', 'application/x-www-form-urlencoded');
+        this.headers.set('Authorization', 'Bearer ' + this.token);
         return this.http.get(this.apiURL + '/owners/' + id + '/', {
             headers: this.headers,
         })
             .map(function (response) { return response.json(); });
     };
     LeadService.prototype.getEvents = function (owner_id) {
+        this.headers.set('Content-Type', 'application/x-www-form-urlencoded');
+        this.headers.set('Authorization', 'Bearer ' + this.token);
         return this.http.get(this.apiURL + '/events/?owner=' + owner_id, {
             headers: this.headers,
         })
             .map(function (response) { return response.json(); });
     };
-    LeadService.prototype.setCookie = function (name, value, expireDays, path) {
-        if (path === void 0) { path = ''; }
-        var d = new Date();
-        d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
-        var expires = "expires=" + d.toUTCString();
-        var cpath = path ? "; path=" + path : '';
-        document.cookie = name + "=" + value + "; " + expires + cpath;
-    };
-    LeadService.prototype.getCookie = function (name) {
-        var ca = document.cookie.split(';');
-        var caLen = ca.length;
-        var cookieName = name + "=";
-        var c;
-        for (var i = 0; i < caLen; i += 1) {
-            c = ca[i].replace(/^\s+/g, '');
-            if (c.indexOf(cookieName) == 0) {
-                return c.substring(cookieName.length, c.length);
-            }
-        }
-        return '';
-    };
     LeadService.prototype.setEvent = function (data) {
         this.headers.set('Content-Type', 'application/json');
+        this.headers.set('Authorization', 'Bearer ' + this.token);
         return this.http.post(this.apiURL + '/events/', data, {
             headers: this.headers,
             withCredentials: true,
@@ -171,15 +154,23 @@ var Login = (function () {
     Login.prototype._setToken = function (data) {
         console.log("Setting Token...");
         this.token = data['access_token'];
+        this.refresh_token = data['refresh_token'];
         localStorage.setItem('current_token', JSON.stringify({ token: this.token }));
+        localStorage.setItem('refresh_token', JSON.stringify({ token: this.refresh_token }));
         this.leadService.setToken(data['access_token']);
+    };
+    Login.prototype.setRefreshToken = function (token) {
+        console.log(token);
+        this.refresh_token = token;
     };
     Login.prototype._getToken = function () {
         return this.token;
     };
     Login.prototype.delToken = function () {
         this.token = null;
+        this.refresh_token = null;
         localStorage.removeItem('current_token');
+        localStorage.removeItem('refresh_token');
         this.leadService.setToken(null);
         return this.token;
     };
@@ -223,6 +214,24 @@ var Login = (function () {
         var _this = this;
         var that = this;
         this.loginService.login(this.username, this.password)
+            .catch(function (err) {
+            _this.activateForm();
+            return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(err);
+        })
+            .map(function (response) { return response.json(); })
+            .subscribe(function (data) { return _this._setToken(data); }, function (err) { return function () {
+            this.activateForm();
+            this.showLoader(false);
+            console.error(err);
+        }; }, function () {
+            that.showLogin(false);
+            that.toggleLeads.emit(true);
+        });
+    };
+    Login.prototype.refreshToken = function () {
+        var _this = this;
+        var that = this;
+        this.loginService.refresh(this.refresh_token)
             .catch(function (err) {
             _this.activateForm();
             return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(err);
@@ -325,6 +334,15 @@ var LoginService = (function () {
             grant_type: 'password',
             client_id: 'ZvKaxqhmyG4HopZGo14YKlC9SXj8zW852GJyQmRY'
         };
+        return this.http.post(this.url + 'o/token/', JSON.stringify(data), { headers: this.headers });
+    };
+    LoginService.prototype.refresh = function (token) {
+        var data = {
+            refresh_token: token,
+            grant_type: 'refresh_token',
+            client_id: 'ZvKaxqhmyG4HopZGo14YKlC9SXj8zW852GJyQmRY'
+        };
+        this.headers.set('Content-Type', 'application/json');
         return this.http.post(this.url + 'o/token/', JSON.stringify(data), { headers: this.headers });
     };
     LoginService.prototype.logout = function (token) {
@@ -506,14 +524,17 @@ var AppComponent = (function () {
     AppComponent.prototype.ngOnInit = function () {
         this.login.showLogin(true);
         this.login.showLogout(false);
-        this.login.showLoader(true);
+        this.login.showLoader(false);
         this.login.deactivateForm();
         var currentToken = JSON.parse(localStorage.getItem('current_token'));
+        var refresh_token = JSON.parse(localStorage.getItem('refresh_token'));
         if (this.urlParam('postal_code') != null) {
             this.filters += 'postal_code=' + this.urlParam('postal_code');
         }
-        if (currentToken != null) {
-            this.getLeads();
+        if (refresh_token != null) {
+            this.login.showLoader(true);
+            this.login.setRefreshToken(refresh_token['token']);
+            this.login.refreshToken();
         }
         else {
             this.login.activateForm();
@@ -633,6 +654,14 @@ var Lead = (function () {
             this.events.push(d['events'][i]);
         }
     };
+    Lead.prototype.get_name = function (event) {
+        if (event['user'] != null) {
+            return event['user']['username'];
+        }
+        else {
+            return null;
+        }
+    };
     Lead.prototype.get_type = function (event) {
         return event['type'];
     };
@@ -688,6 +717,7 @@ var Lead = (function () {
         return event.icon_url;
     };
     Lead.prototype.addEvent = function (event) {
+        console.log(event);
         for (var i = 0; i < this.events.length; i++) {
             if (this.events[i]['id'] == event['id']) {
                 this.events[i] = event;

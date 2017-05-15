@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-#import dj_database_url
+# import dj_database_url
 
 try:
     from reala.config import *
@@ -54,10 +54,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
 
-    #'allauth',
-    #'allauth.account',
-    #'allauth.socialaccount',
-    #'allauth.socialaccount.providers.google',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
 
     'reala_api',
     'oauth2_provider',
@@ -78,19 +78,18 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-        'DEFAULT_AUTHENTICATION_CLASSES': [
-        ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        #'rest_framework.permissions.IsAuthenticated',
-        #'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-        #'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAdminUser',
     ],
     'PAGE_SIZE': 10
 }
 
 ROOT_URLCONF = 'reala.urls'
 SITE_ID = 2
-
 
 TEMPLATES = [
     {
@@ -151,20 +150,19 @@ OAUTH2_PROVIDER = {
     'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
 }
 
-
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'oauth2_provider.backends.OAuth2Backend',
 ]
-    #'social.backends.google.GoogleOAuth2',
-    #'rest_framework_social_oauth2.backends.DjangoOAuth2',
-    #'allauth.account.auth_backends.AuthenticationBackend',
+# 'social.backends.google.GoogleOAuth2',
+# 'rest_framework_social_oauth2.backends.DjangoOAuth2',
+# 'allauth.account.auth_backends.AuthenticationBackend',
 
 
 LOGIN_REDIRECT_URL = '/'
 
-#DRFSO2_PROPRIETARY_BACKEND_NAME = 'google-oauth2'
-#DRFSO2_URL_NAMESPACE = 'social'
+# DRFSO2_PROPRIETARY_BACKEND_NAME = 'google-oauth2'
+# DRFSO2_URL_NAMESPACE = 'social'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -179,7 +177,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
@@ -187,9 +184,9 @@ USE_TZ = True
 
 # The next two lines come from Heroku
 # If using a Heroku setup, these are the default DB settings
-#db_from_env = dj_database_url.config(conn_max_age=500)
-#DATABASES['default'].update(db_from_env)
-#DATABASES['default']['OPTIONS'] = {'ssl': {'ca': 'reala/rds-combined-ca-bundle.pem'}}
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
+# DATABASES['default']['OPTIONS'] = {'ssl': {'ca': 'reala/rds-combined-ca-bundle.pem'}}
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

@@ -136,8 +136,8 @@ class OwnerSerializer(serializers.ModelSerializer):
 
         return instance
 
-
 class EventSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
     # owner = serializers.CharField(required=True)
 
     class Meta:
