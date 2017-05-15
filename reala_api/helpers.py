@@ -122,7 +122,9 @@ def get_user_created_event(user, owner_id):
     e = queryset.first()
 
     try:
-        if e.occurred.date() >= timezone.now().date():
+        hours_diff = (timezone.now()-e.occurred).total_seconds()/60./60.
+        print("Time Delta:", hours_diff)
+        if hours_diff < 2.:
             print("Found recent event.")
             return e
         else:

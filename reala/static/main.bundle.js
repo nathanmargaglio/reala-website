@@ -10,14 +10,14 @@ module.exports = "<div *ngFor=\"let lead of leadsData\">\n  <lead [leadData]=\"l
 /***/ 142:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"lead-card card\">\n  <div class=\"row\">\n    <i class=\"material-icons col s2\">home</i>\n    <div class=\"col s10 slim\">\n      <div>\n        <span class=\"truncate\">{{first_name}} {{last_name}}</span>\n      </div>\n      <div>\n        <span class=\"truncate\">{{formatted_address}}</span>\n      </div>\n      <br>\n      <div class=\"slim\" *ngFor=\"let event of events\">\n        <div class=\"chip truncate tooltipped\" data-position=\"top\" data-delay=\"50\" data-tooltip=\"I am tooltip\">\n          <img src=\"{{get_icon_url(event)}}\" alt=\"Event\">\n          <b>({{get_occurred(event)}}):</b>&nbsp; {{get_type(event)}} &nbsp;\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"divider\"></div>\n\n  <div class=\"row section\">\n    <i class=\"material-icons col s3 center\" (click)=\"open_modal()\">filter_drama</i>\n    <i class=\"material-icons col s3 center\">perm_contact_calendar</i>\n    <i class=\"material-icons col s3 center\">compare_arrows</i>\n    <i class=\"material-icons col s3 center\">announcement</i>\n  </div>\n</div>\n\n<!-- Modal Structure -->\n<div id='modal_{{id}}' class=\"modal\">\n  <a class=\"col s3 center modal-action modal-close waves-effect waves-green btn-flat\"><i class=\"material-icons\">done</i></a>\n  <ul class=\"modal-content slim\" style=\"padding-top: 0;\">\n    <blockquote>\n      <span class=\"truncate\">{{first_name}} {{last_name}}</span>\n      <span class=\"truncate\">{{email_address}} </span>\n      <span class=\"truncate\">{{phone_number}} </span>\n      <span class=\"truncate\">{{formatted_address}} </span>\n    </blockquote>\n\n    <div class=\"card\">\n      <div class=\"card-content\">\n        <div class=\"input-field row\">\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_claimed\" (change)=\"select_claimed = !select_claimed\" type=\"checkbox\" id=\"select-claimed-{{id}}\"/>\n            <label for=\"select-claimed-{{id}}\">Claimed</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_called\" (change)=\"select_called = !select_called\" type=\"checkbox\" id=\"select-called-{{id}}\" checked/>\n            <label for=\"select-called-{{id}}\">Called</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_mailed\" (change)=\"select_mailed = !select_mailed\" type=\"checkbox\" id=\"select-mailed-{{id}}\"/>\n            <label for=\"select-mailed-{{id}}\">Mailed</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_social\" (change)=\"select_social = !select_social\" type=\"checkbox\" id=\"select-social-{{id}}\"/>\n            <label for=\"select-social-{{id}}\">Social</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_other\" (change)=\"select_other = !select_other\" type=\"checkbox\" id=\"select-other-{{id}}\"/>\n            <label for=\"select-other-{{id}}\">Other</label>\n          </div>\n        </div>\n\n        <div class=\"input-field\" (keydown)=\"keyFunction($event)\">\n          <input [(ngModel)]=\"notes\" placeholder=\"Notes...\" id=\"notes_{{id}}\" type=\"text\" class=\"validate\">\n          <label for=\"notes_{{id}}\">Notes:</label>\n        </div>\n\n      </div>\n    </div>\n\n\n    <br>\n\n    <div *ngFor=\"let event of events\">\n      <div class=\"chip truncate tooltipped\" data-position=\"top\" data-delay=\"50\" data-tooltip=\"I am tooltip\">\n        <img src=\"{{get_icon_url(event)}}\" alt=\"Event\">\n        <b>({{get_occurred(event)}}):</b>&nbsp; {{get_type(event)}} &nbsp;\n      </div>\n\n      <div class=\"row slim\" style=\"padding-left: 12px;\" >\n        <div *ngFor=\"let tag of get_tags(event)\">\n          <div class=\"chip col s2\" style=\"width: unset;\">{{tag}}</div>\n        </div>\n      </div>\n      <blockquote style=\"margin-top: 0; padding-left: 12px;\">\n        <span>{{get_notes(event)}}</span>\n      </blockquote>\n      <div class=\"divider\"></div>\n      <br>\n    </div>\n\n  </ul>\n</div>\n\n"
+module.exports = "<div class=\"lead-card card\">\n  <div class=\"row\">\n    <i class=\"material-icons col s2\">home</i>\n    <div class=\"col s10 slim\">\n      <div>\n        <span class=\"truncate\">{{first_name}} {{last_name}}</span>\n      </div>\n      <div>\n        <span class=\"truncate\">{{formatted_address}}</span>\n      </div>\n      <br>\n      <div class=\"slim\" *ngFor=\"let event of events\">\n        <div class=\"chip truncate tooltipped\" data-position=\"top\" data-delay=\"50\" data-tooltip=\"I am tooltip\">\n          <img src=\"{{get_icon_url(event)}}\" alt=\"Event\">\n          <b>({{get_occurred(event)}}):</b>&nbsp; {{get_type(event)}} &nbsp;\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"divider\"></div>\n\n  <div class=\"row section\">\n    <i class=\"material-icons col s3 center\" (click)=\"open_modal()\">filter_drama</i>\n    <i class=\"material-icons col s3 center\">perm_contact_calendar</i>\n    <i class=\"material-icons col s3 center\">compare_arrows</i>\n    <i class=\"material-icons col s3 center\">announcement</i>\n  </div>\n</div>\n\n<!-- Modal Structure -->\n<div id='modal_{{id}}' class=\"modal\">\n  <a class=\"col s3 center modal-action modal-close waves-effect waves-green btn-flat\"><i class=\"material-icons\">done</i></a>\n  <ul class=\"modal-content slim\" style=\"padding-top: 0;\">\n    <blockquote>\n      <span class=\"truncate\">{{first_name}} {{last_name}}</span>\n      <span class=\"truncate\">{{email_address}} </span>\n      <span class=\"truncate\">{{phone_number}} </span>\n      <span class=\"truncate\">{{formatted_address}} </span>\n    </blockquote>\n\n    <div class=\"card\">\n      <div class=\"card-content\">\n        <div class=\"input-field row\">\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_claimed\" (change)=\"select_claimed = !select_claimed\" type=\"checkbox\" id=\"select-claimed-{{id}}\"/>\n            <label for=\"select-claimed-{{id}}\">Claimed</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_called\" (change)=\"select_called = !select_called\" type=\"checkbox\" id=\"select-called-{{id}}\" checked/>\n            <label for=\"select-called-{{id}}\">Called</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_mailed\" (change)=\"select_mailed = !select_mailed\" type=\"checkbox\" id=\"select-mailed-{{id}}\"/>\n            <label for=\"select-mailed-{{id}}\">Mailed</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_social\" (change)=\"select_social = !select_social\" type=\"checkbox\" id=\"select-social-{{id}}\"/>\n            <label for=\"select-social-{{id}}\">Social</label>\n          </div>\n          <div class=\"col s6 m2\">\n            <input [checked]=\"select_other\" (change)=\"select_other = !select_other\" type=\"checkbox\" id=\"select-other-{{id}}\"/>\n            <label for=\"select-other-{{id}}\">Other</label>\n          </div>\n        </div>\n\n        <div class=\"input-field\" (keydown)=\"keyFunction($event)\">\n          <input [(ngModel)]=\"notes\" placeholder=\"Notes...\" id=\"notes_{{id}}\" type=\"text\" class=\"validate\">\n          <label for=\"notes_{{id}}\">Notes:</label>\n        </div>\n\n      </div>\n    </div>\n\n    <div class=\"progress col s12 center\" id=\"lead_loader_{{id}}\">\n      <div class=\"indeterminate\"></div>\n    </div>\n\n    <br>\n\n    <div *ngFor=\"let event of events\">\n      <div class=\"chip truncate tooltipped\" data-position=\"top\" data-delay=\"50\" data-tooltip=\"I am tooltip\">\n        <img src=\"{{get_icon_url(event)}}\" alt=\"Event\">\n        <b>({{get_occurred(event)}}):</b>&nbsp; {{get_type(event)}} &nbsp;\n      </div>\n\n      <div class=\"row slim\" style=\"padding-left: 12px;\" >\n        <div *ngFor=\"let tag of get_tags(event)\">\n          <div class=\"chip col s2\" style=\"width: unset;\">{{tag}}</div>\n        </div>\n      </div>\n      <blockquote style=\"margin-top: 0; padding-left: 12px;\">\n        <span>{{get_notes(event)}}</span>\n      </blockquote>\n      <div class=\"divider\"></div>\n      <br>\n    </div>\n\n  </ul>\n</div>\n\n"
 
 /***/ }),
 
 /***/ 143:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card\" deactivate>\n  <div class=\"card-content row\">\n\n    <div id=\"login_form\" class=\"col s12 center\">\n      <div class=\"input-field\">\n        <input [(ngModel)]=\"username\" id=\"username\" name=\"username\" type=\"text\" class=\"validate\">\n        <label for=\"username\">Username</label>\n      </div>\n\n      <div class=\"input-field\">\n        <input [(ngModel)]=\"password\" id=\"password\" name=\"password\" type=\"password\" class=\"validate\">\n        <label for=\"password\">Password</label>\n      </div>\n\n      <a (click)=\"login()\" class=\"waves-effect waves-light btn\" id=\"submit_button\">login</a>\n    </div>\n\n    <div id=\"logout\" class=\"col s12 center\">\n      <a (click)=\"logout()\" class=\"waves-effect waves-light btn\" id=\"logout_button\">logout</a>\n    </div>\n\n    <div class=\"progress col s12 center\" id=\"login_loader\" style=\"display: none;\">\n      <div class=\"indeterminate\"></div>\n    </div>\n\n  </div>\n</div>\n"
+module.exports = "<div class=\"card\" deactivate>\n  <div class=\"card-content row\">\n\n    <div id=\"login_form\" class=\"col s12 center\">\n      <div class=\"input-field\">\n        <input [(ngModel)]=\"username\" id=\"username\" name=\"username\" type=\"text\" class=\"validate\">\n        <label for=\"username\">Username</label>\n      </div>\n\n      <div class=\"input-field\">\n        <input [(ngModel)]=\"password\" id=\"password\" name=\"password\" type=\"password\" class=\"validate\">\n        <label for=\"password\">Password</label>\n      </div>\n\n      <a (click)=\"login()\" class=\"waves-effect waves-light btn\" id=\"submit_button\">login</a>\n    </div>\n\n    <div id=\"logout\" class=\"col s12 center\">\n      <a (click)=\"logout()\" class=\"waves-effect waves-light btn\" id=\"logout_button\">logout</a>\n    </div>\n\n    <div class=\"progress col s12 center\" id=\"login_loader\">\n      <div class=\"indeterminate\"></div>\n    </div>\n\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -115,8 +115,7 @@ var LeadService = (function () {
         return '';
     };
     LeadService.prototype.setEvent = function (data) {
-        var _headers = this.headers;
-        _headers.set('Content-Type', 'application/json');
+        this.headers.set('Content-Type', 'application/json');
         return this.http.post(this.apiURL + '/events/', data, {
             headers: this.headers,
             withCredentials: true,
@@ -184,27 +183,41 @@ var Login = (function () {
         this.leadService.setToken(null);
         return this.token;
     };
-    Login.prototype.showLogin = function (on) {
-        if (on) {
+    Login.prototype.showLogin = function (make_visible) {
+        if (make_visible) {
+            this.activateForm();
             $('#login_form').css('display', 'block');
-            $('#logout').css('display', 'none');
         }
         else {
+            this.deactivateForm();
             $('#login_form').css('display', 'none');
+        }
+    };
+    Login.prototype.showLogout = function (make_visible) {
+        if (make_visible) {
             $('#logout').css('display', 'block');
+        }
+        else {
+            $('#logout').css('display', 'none');
+        }
+    };
+    Login.prototype.showLoader = function (make_visible) {
+        if (make_visible) {
+            $('#login_loader').css('display', 'block');
+        }
+        else {
+            $('#login_loader').css('display', 'none');
         }
     };
     Login.prototype.deactivateForm = function () {
         $('#submit_button').addClass('disabled');
         $('#username').prop('disabled', true);
         $('#password').prop('disabled', true);
-        $('#login_loader').css('display', 'block');
     };
     Login.prototype.activateForm = function () {
         $('#submit_button').removeClass('disabled');
         $('#username').prop('disabled', false);
         $('#password').prop('disabled', false);
-        $('#login_loader').css('display', 'none');
     };
     Login.prototype.setToken = function () {
         var _this = this;
@@ -217,10 +230,11 @@ var Login = (function () {
             .map(function (response) { return response.json(); })
             .subscribe(function (data) { return _this._setToken(data); }, function (err) { return function () {
             this.activateForm();
+            this.showLoader(false);
             console.error(err);
         }; }, function () {
             that.showLogin(false);
-            that.toggleLeads.emit(that.token);
+            that.toggleLeads.emit(true);
         });
     };
     Login.prototype.loseToken = function () {
@@ -236,17 +250,18 @@ var Login = (function () {
     };
     Login.prototype.login = function () {
         console.log("Logging in...");
+        this.showLoader(true);
         this.deactivateForm();
         this.setToken();
-        console.log(this._getToken());
     };
     Login.prototype.logout = function () {
         console.log("Logging out...");
         this.loseToken();
         this.delToken();
         console.log("Removing leads...");
-        this.toggleLeads.emit(null);
+        this.toggleLeads.emit(false);
         this.showLogin(true);
+        this.showLogout(false);
     };
     return Login;
 }());
@@ -317,6 +332,7 @@ var LoginService = (function () {
             token: token,
             client_id: 'ZvKaxqhmyG4HopZGo14YKlC9SXj8zW852GJyQmRY'
         };
+        this.headers.set('Content-Type', 'application/json');
         return this.http.post(this.url + 'o/revoke_token/', JSON.stringify(data), { headers: this.headers });
     };
     return LoginService;
@@ -455,8 +471,8 @@ var AppComponent = (function () {
         this.leadsData = [];
         this.filters = '?';
     }
-    AppComponent.prototype.toggleLeads = function (token) {
-        if (token != null) {
+    AppComponent.prototype.toggleLeads = function (show_leads) {
+        if (show_leads) {
             this.getLeads();
         }
         else {
@@ -474,22 +490,34 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.getLeads = function () {
         var _this = this;
+        var that = this;
         console.log("Getting Leads...");
-        this.leadService.getLeads(this.filters).subscribe(function (data) { return _this.populateLeads(data.results); }, function (err) { return console.error(err); });
+        this.leadService.getLeads(this.filters).subscribe(function (data) { return _this.populateLeads(data.results); }, function (err) { return console.error(err); }, function () {
+            _this.login.showLogin(false);
+            _this.login.showLogout(true);
+        });
     };
     AppComponent.prototype.populateLeads = function (leads_data) {
         for (var i = 0; i < leads_data.length; ++i) {
             this.leadsData.push(leads_data[i]);
         }
+        var res = this.login.showLoader(false);
     };
     AppComponent.prototype.ngOnInit = function () {
+        this.login.showLogin(true);
+        this.login.showLogout(false);
+        this.login.showLoader(true);
+        this.login.deactivateForm();
         var currentToken = JSON.parse(localStorage.getItem('current_token'));
         if (this.urlParam('postal_code') != null) {
             this.filters += 'postal_code=' + this.urlParam('postal_code');
         }
         if (currentToken != null) {
             this.getLeads();
-            this.login.showLogin(false);
+        }
+        else {
+            this.login.activateForm();
+            this.login.showLoader(false);
         }
     };
     return AppComponent;
@@ -558,6 +586,7 @@ var Lead = (function () {
     }
     Lead.prototype.getLead = function () {
         var _this = this;
+        this.showLoader(true, this.id);
         this.leadService.getLead(this.id).subscribe(function (data) { return _this.consume_detail_json(data); }, function (err) { return console.error(err); }, function () { return _this.getEvents(); });
     };
     Lead.prototype.getEvents = function () {
@@ -567,7 +596,7 @@ var Lead = (function () {
             for (i = 0; i < data['results'].length; i++) {
                 _this.addEvent(data['results'][i]);
             }
-        }, function (err) { return console.error(err); });
+        }, function (err) { return console.error(err); }, function () { return _this.showLoader(false, _this.id); });
     };
     Lead.prototype.open_modal = function () {
         // TODO: Fix loading time
@@ -585,7 +614,6 @@ var Lead = (function () {
         $('.tooltipped').tooltip();
     };
     Lead.prototype.consume_json = function (d) {
-        console.log(d);
         this.id = d['id'];
         this.first_name = d['first_name'];
         this.last_name = d['last_name'];
@@ -662,14 +690,20 @@ var Lead = (function () {
     Lead.prototype.addEvent = function (event) {
         for (var i = 0; i < this.events.length; i++) {
             if (this.events[i]['id'] == event['id']) {
-                console.log("Lead Already Present");
-                console.log(event);
                 this.events[i] = event;
                 return event;
             }
         }
         this.events.unshift(event);
         return event;
+    };
+    Lead.prototype.showLoader = function (make_visible, id) {
+        if (make_visible) {
+            $('#lead_loader_' + id).css('display', 'block');
+        }
+        else {
+            $('#lead_loader_' + id).css('display', 'none');
+        }
     };
     Lead.prototype.keyFunction = function (event) {
         var _this = this;
