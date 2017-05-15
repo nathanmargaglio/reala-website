@@ -55,17 +55,17 @@ var LeadService = (function () {
     function LeadService(http) {
         this.http = http;
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Headers */]();
-        this.setToken = function (token) {
-            this.token = token;
-            this.headers.append('Content-Type', 'application/x-www-form-urlencoded');
-            this.headers.append('Authorization', 'Bearer ' + token);
-        };
         var url = window.location.href;
         if (url[url.length - 6] == ':') {
             url = "http://localhost:8000/";
         }
         this.apiURL = url + 'api';
     }
+    LeadService.prototype.setToken = function (token) {
+        this.token = token;
+        this.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        this.headers.append('Authorization', 'Bearer ' + token);
+    };
     LeadService.prototype.getToken = function () {
         return this.token;
     };
@@ -169,12 +169,13 @@ var Login = (function () {
         this.username = '';
         this.password = '';
     }
-    Login.prototype.setToken = function (data) {
+    Login.prototype._setToken = function (data) {
         console.log("Setting Token...");
         this.token = data['access_token'];
         localStorage.setItem('current_token', JSON.stringify({ token: this.token }));
         this.leadService.setToken(data['access_token']);
-        this.toggleLeads.emit(data['access_token']);
+    };
+    Login.prototype._getToken = function () {
         return this.token;
     };
     Login.prototype.delToken = function () {
@@ -183,8 +184,15 @@ var Login = (function () {
         this.leadService.setToken(null);
         return this.token;
     };
-    Login.prototype.toggleVisibility = function () {
-        $('#login_form').css('display', 'none');
+    Login.prototype.showLogin = function (on) {
+        if (on) {
+            $('#login_form').css('display', 'block');
+            $('#logout').css('display', 'none');
+        }
+        else {
+            $('#login_form').css('display', 'none');
+            $('#logout').css('display', 'block');
+        }
     };
     Login.prototype.deactivateForm = function () {
         $('#submit_button').addClass('disabled');
@@ -198,21 +206,21 @@ var Login = (function () {
         $('#password').prop('disabled', false);
         $('#login_loader').css('display', 'none');
     };
-    Login.prototype.getToken = function () {
+    Login.prototype.setToken = function () {
         var _this = this;
         var that = this;
-        this.deactivateForm();
         this.loginService.login(this.username, this.password)
             .catch(function (err) {
             _this.activateForm();
             return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(err);
         })
             .map(function (response) { return response.json(); })
-            .subscribe(function (data) { return _this.setToken(data); }, function (err) { return function () {
+            .subscribe(function (data) { return _this._setToken(data); }, function (err) { return function () {
             this.activateForm();
             console.error(err);
         }; }, function () {
-            //that.toggleLeads.emit('on');
+            that.showLogin(false);
+            that.toggleLeads.emit(that.token);
         });
     };
     Login.prototype.loseToken = function () {
@@ -228,7 +236,9 @@ var Login = (function () {
     };
     Login.prototype.login = function () {
         console.log("Logging in...");
-        this.getToken();
+        this.deactivateForm();
+        this.setToken();
+        console.log(this._getToken());
     };
     Login.prototype.logout = function () {
         console.log("Logging out...");
@@ -236,7 +246,7 @@ var Login = (function () {
         this.delToken();
         console.log("Removing leads...");
         this.toggleLeads.emit(null);
-        this.toggleVisibility();
+        this.showLogin(true);
     };
     return Login;
 }());
@@ -444,11 +454,10 @@ var AppComponent = (function () {
         // Lead Container
         this.leadsData = [];
         this.filters = '?';
-        this.login;
     }
     AppComponent.prototype.toggleLeads = function (token) {
         if (token != null) {
-            this.getLeadsOnInit(token);
+            this.getLeads();
         }
         else {
             this.leadsData = [];
@@ -462,13 +471,6 @@ var AppComponent = (function () {
         else {
             return null;
         }
-    };
-    AppComponent.prototype.getLeadsOnInit = function (token) {
-        var _this = this;
-        console.log("Getting Leads...");
-        this.leadService.setToken(token);
-        this.leadService.getLeads(this.filters).subscribe(function (data) { return _this.populateLeads(data.results); }, function (err) { return console.error(err); });
-        console.log(this.login.getToken());
     };
     AppComponent.prototype.getLeads = function () {
         var _this = this;
@@ -486,8 +488,8 @@ var AppComponent = (function () {
             this.filters += 'postal_code=' + this.urlParam('postal_code');
         }
         if (currentToken != null) {
-            this.login.toggleVisibility();
-            this.getLeadsOnInit(currentToken['token']);
+            this.getLeads();
+            this.login.showLogin(false);
         }
     };
     return AppComponent;
