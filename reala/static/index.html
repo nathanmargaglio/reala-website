@@ -11,91 +11,85 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
+  <script type="text/javascript"
+          src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
 
   <!--Import Google Icon Font-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="client_id" content="cisLL74yN54vbUUKJaceZ1BmUHy3GjWyJFUNcXpu">
 </head>
 <body class="blue-grey lighten-5">
 
-  <!-- HEADER -->
-  <div class="navbar-fixed">
-      <nav>
-          <div class="nav-wrapper blue-grey">
-              <a href="#!" class="brand-logo right">BFLO_DS</a>
-              <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+<!-- HEADER -->
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper blue-grey">
+      <a class="brand-logo right">BFLO_DS</a>
+      <a data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-              <ul class="left hide-on-med-and-down">
-                  <li data-activates="mobile-demo" class="button-collapse"><a href="#!"><i class="material-icons">menu</i></a>
-                  </li>
+      <ul class="left hide-on-med-and-down">
+        <li data-activates="mobile-demo" class="button-collapse"><a href="#!"><i class="material-icons">menu</i></a>
+        </li>
 
-                  <li onclick="showCard('home_card')" class="nav_item" id="nav_home_card"><a href="#!"><i
-                          class="material-icons left">account_circle</i>Home</a></li>
-                  <li onclick="showCard('lead_card')" class="nav_item" id="nav_lead_card"><a href="#!"><i
-                          class="material-icons left">alarm</i>Leads</a></li>
-                  <li onclick="showCard('claimed_card')" class="nav_item" id="nav_claimed_card"><a href="#!"><i
-                          class="material-icons left">announcement</i>Claimed</a></li>
-                  <li onclick="showCard('update_card')" class="nav_item" id="nav_update_card"><a href="#!"><i
-                          class="material-icons left">cloud</i>Updates</a></li>
-                  <li onclick="showCard('admin_card')" class="nav_item admin_only" id="nav_admin_card"><a href="#!"><i
-                          class="material-icons left">power_settings_new</i>Admin</a></li>
-              </ul>
-          </div>
-      </nav>
-  </div>
-  <ul class="side-nav" id="mobile-demo">
-      <li>
-          <div class="userView">
-              <div class="background">
-                  <img src="https://8d27d447d6c7bede7903-00fcdfda3fe26e81b0d2b3887b22d582.ssl.cf1.rackcdn.com/files/images/buffalo-ny-ttc-city-page.jpg">
-              </div>
-              <a href="#!user"><img class="circle"
-                                    src="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAaHAAAAJDhmM2IyMTkyLTc1YTgtNDEyMy05OTU3LTU5MDU0MjAwMWVhMQ.png"></a>
-              <a href="#!name"><span class="white-text name">Buffalo First</span></a>
-              <a href="#!email"><span class="white-text email">nathanmargaglio@gmail.com</span></a>
-          </div>
-      </li>
+        <!--li onclick="showCard('home_card')" class="nav_item" id="nav_home_card"><a href="#!"><i
+                class="material-icons left">account_circle</i>Home</a></li>
+        <li onclick="showCard('lead_card')" class="nav_item" id="nav_lead_card"><a href="#!"><i
+                class="material-icons left">alarm</i>Leads</a></li>
+        <li onclick="showCard('claimed_card')" class="nav_item" id="nav_claimed_card"><a href="#!"><i
+                class="material-icons left">announcement</i>Claimed</a></li>
+        <li onclick="showCard('update_card')" class="nav_item" id="nav_update_card"><a href="#!"><i
+                class="material-icons left">cloud</i>Updates</a></li>
+        <li onclick="showCard('admin_card')" class="nav_item admin_only" id="nav_admin_card"><a href="#!"><i
+                class="material-icons left">power_settings_new</i>Admin</a></li-->
+      </ul>
+    </div>
+  </nav>
+</div>
+<ul class="side-nav" id="mobile-demo">
+  <li>
+    <div class="userView">
+      <div class="background">
+        <img
+          src="https://8d27d447d6c7bede7903-00fcdfda3fe26e81b0d2b3887b22d582.ssl.cf1.rackcdn.com/files/images/buffalo-ny-ttc-city-page.jpg">
+      </div>
+      <a href="#!user"><img class="circle"
+                            src="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAaHAAAAJDhmM2IyMTkyLTc1YTgtNDEyMy05OTU3LTU5MDU0MjAwMWVhMQ.png"></a>
+      <a href="#!name"><span class="white-text name">Buffalo First</span></a>
+      <a href="#!email"><span class="white-text email">nathanmargaglio@gmail.com</span></a>
+    </div>
+  </li>
 
-      <li onclick="showCard('home_card')"><a href="#!"><i class="material-icons">account_circle</i>Home</a>
-      </li>
-      <li>
-          <div class="divider"></div>
-      </li>
-      <li onclick="showCard('lead_card')"><a href="#!"><i class="material-icons">alarm</i>Leads</a></li>
-      <li>
-          <div class="divider"></div>
-      </li>
-      <li onclick="showCard('claimed_card')"><a href="#!"><i
-              class="material-icons">announcement</i>Claimed</a></li>
-      <li>
-          <div class="divider"></div>
-      </li>
-      <li onclick="showCard('update_card')"><a href="#!"><i class="material-icons">cloud</i>Updates</a></li>
-      <li>
-          <div class="divider"></div>
-      </li>
-      <li class="admin_only" onclick="showCard('admin_card')"><a href="#!"><i class="material-icons left">power_settings_new</i>Admin</a>
-      </li>
-  </ul>
+  <li>
+    <search></search>
+  </li>
 
-  <!-- Master Container (i.e. MAIN)-->
+  <li>
+    <div class="divider"></div>
+  </li>
+
+</ul>
+
+<!-- Master Container (i.e. MAIN)-->
 <main class="container lighten-2">
   <!-- LEADS -->
-    <div id="lead_card">
-      <app-root>Loading...</app-root>
-      </div>
-    </div>
-  </main>
+  <div id="lead_card">
+    <app-root>Loading...</app-root>
+  </div>
+  </div>
+</main>
 <!-- FOOTER -->
 <footer class="page-footer blue-grey lighten-1">
-    <div class="footer-copyright blue-grey">
-        <div class="container row">
-            Made By Nathan Margaglio © 2017
-        </div>
+  <div class="footer-copyright blue-grey">
+    <div class="container row">
+      Made By Nathan Margaglio © 2017
     </div>
+  </div>
 </footer>
 <script type="text/javascript" src="inline.bundle.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="styles.bundle.js"></script><script type="text/javascript" src="vendor.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
+<script>
+  $(".button-collapse").sideNav();
+</script>
 </html>

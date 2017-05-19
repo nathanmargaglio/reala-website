@@ -10,7 +10,7 @@ class Parcel(models.Model):
 
     # Meta Info
     created = models.DateTimeField(auto_now_add=True)
-    contact = models.ForeignKey('Owner', related_name='parcels', null=True, on_delete=models.CASCADE)
+    contact = models.ForeignKey('Owner', related_name='parcels', null=True, on_delete=models.SET_NULL)
 
     # Location Info
     formatted_address = models.CharField(max_length=128, default=None, null=True)
@@ -49,7 +49,7 @@ class Owner(models.Model):
     # Contact Info
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
-    home = models.ForeignKey(Parcel, null=True)
+    home = models.ForeignKey(Parcel, null=True, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=32, null=True)
     phone_verified = models.BooleanField(default=False)
     do_not_contact = models.BooleanField(default=False)

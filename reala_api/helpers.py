@@ -113,6 +113,7 @@ def get_user_created_event(user, owner_id):
         return None
 
     queryset = Event.objects.all()
+
     if user.id is not None:
         queryset = queryset.filter(user=user, owner=owner)
     else:
